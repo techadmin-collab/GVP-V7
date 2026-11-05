@@ -1,0 +1,63 @@
+// GVP website database schema (MongoDB)
+// Run `npm run db:push` after setting DATABASE_URL to create indexes.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum EnquiryInterest {
+  BMS
+  ETA
+  EGATES
+  DESTINATION_PROMOTION
+  PARTNERSHIP_MODEL
+  OTHER
+}
+
+enum EnquiryStatus {
+  NEW
+  IN_REVIEW
+  RESPONDED
+  CLOSED
+}
+
+enum EmailStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+model Enquiry {
+  id           String          @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  title        String
+  organisation String // Ministry or agency
+  country      String
+  email        String
+  phone        String?
+  interest     EnquiryInterest
+  message      String
+  consent      Boolean         @default(false)
+
+  status       EnquiryStatus   @default(NEW)
+  emailStatus  EmailStatus     @default(PENDING)
+  emailError   String?
+  notifiedAt   DateTime?
+
+  ipAddress    String?
+  userAgent    String?
+  sourcePath   String?
+
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  @@index([createdAt])
+  @@index([email])
+  @@index([status])
+  @@map("enquiries")
+}
