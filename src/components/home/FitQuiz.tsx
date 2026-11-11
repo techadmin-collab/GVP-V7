@@ -16,7 +16,7 @@ import { contactHref, type InterestValue } from '@/lib/site';
 /**
  * "Is GVP right for your country?" — four quick questions that lead to a
  * tailored summary and the briefing form. Everything it recommends comes
- * from the content brief (modules, phased delivery, zero capex).
+ * from the content brief (modules, phased delivery, GVP financing).
  */
 
 type Entry = 'airports' | 'seaports' | 'land';
@@ -42,7 +42,7 @@ const Q_SYSTEM: Option<System>[] = [
 const Q_PRIORITY: Option<Priority>[] = [
   { value: 'security', label: 'Stronger security' },
   { value: 'queues', label: 'Shorter queues' },
-  { value: 'revenue', label: 'New revenue, no capex' },
+  { value: 'revenue', label: 'New revenue stream' },
   { value: 'tourism', label: 'Tourism growth' },
 ];
 const Q_TIMELINE: Option<Timeline>[] = [
@@ -56,7 +56,7 @@ const STEPS = ['Entry points', 'Current system', 'Main priority', 'Timeline'] as
 const HEADLINES: Record<Priority, string> = {
   security: 'Stronger security from the first traveller.',
   queues: 'Shorter queues without adding counters or staff.',
-  revenue: 'A new revenue stream, at zero capital cost.',
+  revenue: 'A new revenue stream, built around your country.',
   tourism: 'A border that welcomes, and promotes, your country.',
 };
 
@@ -272,7 +272,7 @@ function Result({ answers, onRestart }: { answers: Answers; onRestart: () => voi
   return (
     <Box className="gvp-swap">
       <Typography variant="overline" component="p" sx={{ color: colors.accentDark }}>
-        Your tailored summary
+        A possible starting point
       </Typography>
       <Typography variant="h3" component="h3" sx={{ color: colors.base, mt: 1 }}>
         {HEADLINES[priority]}
@@ -300,11 +300,11 @@ function Result({ answers, onRestart }: { answers: Answers; onRestart: () => voi
 
         <Box sx={{ p: 3, bgcolor: colors.base, color: colors.onDark, borderRadius: '4px', alignSelf: 'start' }}>
           <Typography sx={{ fontFamily: fontStacks.mono, fontSize: 12, letterSpacing: '0.14em', color: colors.accentLight }}>
-            GOVERNMENT CAPITAL OUTLAY
+            FINANCING
           </Typography>
-          <Typography sx={{ fontFamily: fontStacks.heading, fontSize: '2.8rem', lineHeight: 1.1, color: '#fff' }}>$0</Typography>
+          <Typography sx={{ fontFamily: fontStacks.heading, fontSize: '2.2rem', lineHeight: 1.1, color: '#fff' }}>Financed by GVP</Typography>
           <Typography variant="body2" sx={{ mt: 1, color: 'rgb(var(--gvp-on-dark) / 0.8)' }}>
-            GVP funds design, build and operation. Government keeps control of policy and data.
+            Repaid from published traveller fees, shared openly with Government. Government keeps control of policy and data.
           </Typography>
           <Typography variant="body2" sx={{ mt: 2, color: 'rgb(var(--gvp-on-dark) / 0.8)' }}>
             {TIMELINE_NOTE[answers.timeline ?? 'exploring']}

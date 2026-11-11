@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: 'Terms of Use', robots: { index: fals
 const sections: LegalSection[] = [
   {
     heading: 'About this website',
-    body: ['This website provides general information about GVP (Global Visit Permit) and its services for government audiences.'],
+    body: ['This website provides general information about GVP and its services for government audiences.'],
   },
   {
     heading: 'No offer or commitment',

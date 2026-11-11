@@ -7,8 +7,8 @@ import { fontStacks } from '@/theme/tokens';
  * passport photo page.
  */
 const DEFAULT_LINES = [
-  'P<GVP<GLOBAL<VISIT<PERMIT<<BORDER<MANAGEMENT<SYSTEMS<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<',
-  'GVP0000001<9UAE<ZERO<CAPEX<<OPEN<BOOKS<<SOVEREIGNTY<FIRST<<SECURE<SEAMLESS<<<<<<<<<<<<<<<<<<<<<',
+  'P<GVP<<BORDER<MANAGEMENT<PARTNERS<<SECURE<BORDERS<<OPEN<BOOKS<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<',
+  'GVP0000001<9ARE<FUNDED<BY<GVP<<GOVERNED<BY<THE<STATE<<SOVEREIGNTY<FIRST<<<<<<<<<<<<<<<<<<<<<',
 ];
 
 export default function MrzStrip({ lines = DEFAULT_LINES, color = 'rgb(var(--gvp-pattern) / 0.55)' }: { lines?: string[]; color?: string }) {

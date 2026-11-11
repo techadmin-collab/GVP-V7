@@ -63,9 +63,9 @@ const phases = [
 
 const partnership = [
   'Co-design promotional content within the traveller journey',
-  'Support roadshows and international trade events [as agreed]',
+  'Support roadshows and international trade events, as agreed with Government',
   'Help position the country as modern, secure and welcoming',
-  'Dedicate a [defined marketing contribution or commitment] to destination promotion through the programme term',
+  'Dedicate an agreed marketing contribution to destination promotion through the programme term',
 ];
 
 export default function DestinationPromotionPage() {

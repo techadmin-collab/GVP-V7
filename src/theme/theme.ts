@@ -1,7 +1,7 @@
 'use client';
 
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
-import { onAccent, colors, fontStacks, layout } from './tokens';
+import { onAccent, colors, fontStacks } from './tokens';
 
 const { heading, body, mono } = fontStacks;
 
@@ -18,21 +18,22 @@ let theme = createTheme({
     text: { primary: colors.text, secondary: colors.muted },
     divider: colors.line,
   },
-  shape: { borderRadius: layout.radius },
+  shape: { borderRadius: 16 },
   typography: {
+    // v7 Modern bento: bold, tight sans headlines, friendly body
     fontFamily: body,
     fontSize: 16,
-    h1: { fontFamily: heading, fontWeight: 500, fontSize: '3.6rem', lineHeight: 1.08, letterSpacing: '-0.015em' },
-    h2: { fontFamily: heading, fontWeight: 500, fontSize: '2.6rem', lineHeight: 1.15, letterSpacing: '-0.01em' },
-    h3: { fontFamily: heading, fontWeight: 500, fontSize: '1.9rem', lineHeight: 1.2 },
-    h4: { fontFamily: heading, fontWeight: 500, fontSize: '1.45rem', lineHeight: 1.3 },
-    h5: { fontFamily: body, fontWeight: 600, fontSize: '1.15rem', lineHeight: 1.4 },
-    h6: { fontFamily: body, fontWeight: 600, fontSize: '1rem', lineHeight: 1.45 },
-    subtitle1: { fontSize: '1.2rem', lineHeight: 1.6 },
-    body1: { fontSize: '1.0625rem', lineHeight: 1.7 },
+    h1: { fontFamily: body, fontWeight: 800, fontSize: '4rem', lineHeight: 1.02, letterSpacing: '-0.04em' },
+    h2: { fontFamily: body, fontWeight: 800, fontSize: '2.8rem', lineHeight: 1.08, letterSpacing: '-0.035em' },
+    h3: { fontFamily: body, fontWeight: 750, fontSize: '1.8rem', lineHeight: 1.15, letterSpacing: '-0.025em' },
+    h4: { fontFamily: body, fontWeight: 700, fontSize: '1.4rem', lineHeight: 1.25, letterSpacing: '-0.015em' },
+    h5: { fontFamily: body, fontWeight: 700, fontSize: '1.15rem', lineHeight: 1.35, letterSpacing: '-0.01em' },
+    h6: { fontFamily: body, fontWeight: 700, fontSize: '1rem', lineHeight: 1.45 },
+    subtitle1: { fontSize: '1.18rem', lineHeight: 1.6 },
+    body1: { fontSize: '1.05rem', lineHeight: 1.7 },
     body2: { fontSize: '0.95rem', lineHeight: 1.65 },
-    overline: { fontFamily: mono, fontSize: '0.75rem', letterSpacing: '0.14em', fontWeight: 500, lineHeight: 1.6 },
-    button: { fontWeight: 600, letterSpacing: '0.01em', textTransform: 'none' },
+    overline: { fontFamily: body, fontSize: '0.78rem', letterSpacing: '0.04em', fontWeight: 700, lineHeight: 1.6, textTransform: 'none' },
+    button: { fontWeight: 700, letterSpacing: '0', textTransform: 'none' },
   },
   components: {
     MuiCssBaseline: {
@@ -46,8 +47,8 @@ let theme = createTheme({
     MuiButton: {
       defaultProps: { disableElevation: true },
       styleOverrides: {
-        root: { borderRadius: 2, paddingInline: 22, paddingBlock: 11, fontSize: '0.98rem' },
-        sizeLarge: { paddingInline: 28, paddingBlock: 14, fontSize: '1.02rem' },
+        root: { borderRadius: 999, paddingInline: 24, paddingBlock: 11, fontSize: '0.98rem' },
+        sizeLarge: { paddingInline: 30, paddingBlock: 15, fontSize: '1.02rem' },
         outlined: { borderWidth: 1.5, '&:hover': { borderWidth: 1.5 } },
       },
     },
@@ -81,7 +82,7 @@ let theme = createTheme({
     },
     MuiOutlinedInput: {
       styleOverrides: {
-        root: { backgroundColor: '#FFFFFF', borderRadius: 2 },
+        root: { backgroundColor: '#FFFFFF', borderRadius: 12 },
       },
     },
     MuiLink: {

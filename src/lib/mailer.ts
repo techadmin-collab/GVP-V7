@@ -66,7 +66,7 @@ function layout(title: string, inner: string): string {
       <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border:1px solid #E3D9D2;">
         <tr><td style="background:${brand.ink};padding:22px 28px;color:#ffffff;">
           <div style="font-family:Georgia,serif;font-size:22px;letter-spacing:0.04em;">GVP</div>
-          <div style="font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.24em;color:${brand.pattern};margin-top:4px;">GLOBAL VISIT PERMIT</div>
+          <div style="font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.24em;color:${brand.pattern};margin-top:4px;">${esc(siteConfig.nameLine.toUpperCase())}</div>
         </td></tr>
         <tr><td style="height:3px;background:${brand.copper};line-height:3px;font-size:0;">&nbsp;</td></tr>
         <tr><td style="padding:28px;">
@@ -74,7 +74,7 @@ function layout(title: string, inner: string): string {
           ${inner}
         </td></tr>
         <tr><td style="padding:18px 28px;background:${brand.parchment};font-size:12px;color:${brand.muted};">
-          GVP · Global Visit Permit · ${esc(siteConfig.url)}
+          GVP | ${esc(siteConfig.nameLine)} · ${esc(siteConfig.url)}
         </td></tr>
       </table>
     </td></tr>

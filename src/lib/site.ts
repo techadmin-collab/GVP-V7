@@ -6,10 +6,13 @@
 
 export const siteConfig = {
   name: 'GVP',
-  fullName: 'Global Visit Permit',
-  tagline: 'Modern borders. Zero capital outlay for Government. Full transparency.',
+  /** Short line shown with the GVP name (drawer, emails, page titles) */
+  nameLine: 'Border Management Partners',
+  tagline: 'Secure borders. Open books.',
+  /** Full lockup: GVP | Border Management Partners. Secure borders. Open books. */
+  fallbackTagline: 'Borders built on trust.',
   description:
-    'GVP designs, funds, builds and operates intelligent border management systems, so governments can strengthen security, welcome more visitors and share in the revenue, without spending public capital.',
+    'GVP finances, builds and operates intelligent border management systems through a build-operate-transfer partnership. We recover our investment only through published, user-funded fees. Government retains control and receives a transparent revenue share.',
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
   contact: {
     address: '[Address]',
@@ -22,9 +25,37 @@ export const siteConfig = {
 /**
  * Home-page-only preview mode (for showing the home page UI to the team).
  * When on, every link and button stays clickable but doesn't navigate.
- * Turn it off with NEXT_PUBLIC_HOME_ONLY="false" in .env.
+ * Off by default; turn it on with NEXT_PUBLIC_HOME_ONLY="true" in .env.
  */
-export const HOME_ONLY = process.env.NEXT_PUBLIC_HOME_ONLY !== 'false';
+export const HOME_ONLY = process.env.NEXT_PUBLIC_HOME_ONLY === 'true';
+
+/**
+ * Pages that are still mostly placeholders (Team, Experience). They are left
+ * out of every menu and return "not found" until their content is confirmed.
+ * Preview them with NEXT_PUBLIC_SHOW_DRAFT_PAGES="true" in .env.
+ */
+export const SHOW_DRAFT_PAGES = process.env.NEXT_PUBLIC_SHOW_DRAFT_PAGES === 'true';
+export const DRAFT_PAGES = ['/team', '/track-record'];
+
+/** True for unconfirmed "[placeholder]" values, which are hidden on the site. */
+export function isPlaceholder(value: string | undefined | null): boolean {
+  return !value || /^\s*\[[^\]]*\]\s*$/.test(value);
+}
+
+/** Contact details that are confirmed (placeholders are left out). */
+export function confirmedContact() {
+  const c = siteConfig.contact;
+  return {
+    address: isPlaceholder(c.address) ? null : c.address,
+    phone: isPlaceholder(c.phone) ? null : c.phone,
+    email: isPlaceholder(c.email) ? null : c.email,
+    linkedin: isPlaceholder(c.linkedin) ? null : c.linkedin,
+  };
+}
+
+function visible<T extends { href: string }>(items: T[]): T[] {
+  return items.filter((i) => SHOW_DRAFT_PAGES || !DRAFT_PAGES.includes(i.href));
+}
 
 /** Link target to use: '#' in home-only mode, the real path otherwise. */
 export function navHref(href: string): string {
@@ -34,24 +65,24 @@ export function navHref(href: string): string {
 export type NavItem = { label: string; href: string; description?: string };
 
 /** Primary navigation (kept short for government readers). */
-export const primaryNav: NavItem[] = [
+export const primaryNav: NavItem[] = visible([
   { label: 'About', href: '/about' },
   { label: 'Solution', href: '/solution' },
   { label: 'Partnership Model', href: '/partnership-model' },
   { label: 'Revenue Share', href: '/revenue-share' },
   { label: 'Team', href: '/team' },
-];
+]);
 
 /** Secondary pages shown under "More" on desktop and in full on mobile. */
-export const moreNav: NavItem[] = [
+export const moreNav: NavItem[] = visible([
   { label: 'Destination Promotion', href: '/destination-promotion', description: 'The border as a welcome and a marketing channel' },
   { label: 'Security & Governance', href: '/security', description: 'Data sovereignty, security by design, oversight' },
   { label: 'Delivery Approach', href: '/delivery', description: 'From agreement to go-live, and local capacity' },
   { label: 'Experience', href: '/track-record', description: 'Our track record in airports and biometrics' },
   { label: 'FAQs for Government', href: '/faqs', description: 'Straight answers to common questions' },
-];
+]);
 
-export const footerNav: NavItem[] = [
+export const footerNav: NavItem[] = visible([
   { label: 'About', href: '/about' },
   { label: 'Solution', href: '/solution' },
   { label: 'Partnership Model', href: '/partnership-model' },
@@ -63,7 +94,7 @@ export const footerNav: NavItem[] = [
   { label: 'Experience', href: '/track-record' },
   { label: 'FAQs', href: '/faqs' },
   { label: 'Contact', href: '/contact' },
-];
+]);
 
 export const legalNav: NavItem[] = [
   { label: 'Privacy Policy', href: '/privacy' },

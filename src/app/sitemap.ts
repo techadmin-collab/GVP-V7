@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { siteConfig } from '@/lib/site';
+import { DRAFT_PAGES, SHOW_DRAFT_PAGES, siteConfig } from '@/lib/site';
 
 const routes = [
   '',
@@ -18,7 +18,7 @@ const routes = [
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  return routes.map((r) => ({
+  return routes.filter((r) => SHOW_DRAFT_PAGES || !DRAFT_PAGES.includes(r)).map((r) => ({
     url: `${siteConfig.url}${r}`,
     lastModified: now,
     changeFrequency: 'monthly',

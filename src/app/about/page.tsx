@@ -45,7 +45,7 @@ export default function AboutPage() {
           left={<SectionHeading overline="Who we are" title="Border technology, built around what governments need" />}
           right={
             <Typography variant="subtitle1" sx={{ color: colors.text, fontSize: { md: '1.25rem' }, lineHeight: 1.7 }}>
-              <Rich text="GVP is a [UAE-headquartered] border technology and services company working with governments to modernise how travellers are screened, processed and welcomed. We combine deep experience in airport operations and biometric border technology with a partnership model built around what governments actually need: security, speed, transparency and no upfront burden on the public purse." />
+              <Rich text="GVP is a border technology and services company working with governments to modernise how travellers are screened, processed and welcomed. We combine deep experience in airport operations and biometric border technology with a partnership model built around what governments actually need: security, speed, transparency and a tailor-made solution for each country." />
             </Typography>
           }
         />
@@ -88,10 +88,7 @@ export default function AboutPage() {
       <CtaBanner
         title="Meet the people behind GVP"
         body="Experienced leaders and specialist engineers, built for government delivery."
-        actions={[
-          { label: 'Our Team and Leadership', href: '/team' },
-          { label: 'Speak to Our Government Team', href: '/contact' },
-        ]}
+        actions={[{ label: 'Speak to Our Government Team', href: '/contact' }]}
       />
     </>
   );

@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import { SHOW_DRAFT_PAGES } from '@/lib/site';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import PageHero from '@/components/ui/PageHero';
@@ -35,6 +37,8 @@ const caseStudy = [
 ];
 
 export default function TrackRecordPage() {
+  // Mostly placeholders: hidden until content is confirmed (see DRAFT_PAGES in lib/site.ts)
+  if (!SHOW_DRAFT_PAGES) notFound();
   return (
     <>
       <PageHero

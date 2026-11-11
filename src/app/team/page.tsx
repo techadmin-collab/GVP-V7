@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import PageHero from '@/components/ui/PageHero';
@@ -9,7 +10,7 @@ import PersonCard from '@/components/ui/PersonCard';
 import CtaBanner from '@/components/ui/CtaBanner';
 import Rich from '@/components/ui/Rich';
 import { colors } from '@/theme/tokens';
-import { contactHref } from '@/lib/site';
+import { contactHref, SHOW_DRAFT_PAGES } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Our Team and Leadership',
@@ -51,6 +52,8 @@ const capabilities = [
 ];
 
 export default function TeamPage() {
+  // Mostly placeholders: hidden until content is confirmed (see DRAFT_PAGES in lib/site.ts)
+  if (!SHOW_DRAFT_PAGES) notFound();
   return (
     <>
       <PageHero

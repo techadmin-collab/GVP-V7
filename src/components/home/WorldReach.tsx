@@ -5,7 +5,6 @@ import FlightRoundedIcon from '@mui/icons-material/FlightRounded';
 import DirectionsBoatRoundedIcon from '@mui/icons-material/DirectionsBoatRounded';
 import AltRouteRoundedIcon from '@mui/icons-material/AltRouteRounded';
 import { colors, fontStacks } from '@/theme/tokens';
-import Rich from '@/components/ui/Rich';
 import { DOTS_PATH, HQ, MAP_H, MAP_W, REGIONS } from './worldDots';
 
 /**
@@ -79,12 +78,7 @@ export default function WorldReach() {
 
       {/* legend */}
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: { xs: 2, md: 4 }, mt: { xs: 3, md: 4 }, alignItems: 'center' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
-          <Box component="span" sx={{ width: 14, height: 14, borderRadius: '50%', bgcolor: colors.accentLight, boxShadow: `0 0 0 4px rgb(var(--gvp-accent-light) / 0.25)` }} />
-          <Typography variant="body2" sx={{ color: colors.onDark }}>
-            Headquarters: <Rich text="[UAE]" />
-          </Typography>
-        </Box>
+        {/* Headquarters label hidden until the location is confirmed */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
           <Box component="span" sx={{ width: 10, height: 10, borderRadius: '50%', bgcolor: colors.onDark }} />
           <Typography variant="body2" sx={{ color: 'rgb(var(--gvp-on-dark) / 0.75)' }}>

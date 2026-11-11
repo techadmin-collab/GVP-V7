@@ -32,12 +32,12 @@ const commitments = [
   { title: 'Open books', body: 'GVP gives Government and its auditors full access to the records relating to the project, with regular reporting.' },
   {
     title: 'Independent audit',
-    body: "An independent auditor verifies volumes, collections and distributions [annually or as agreed]. Summary results can be shared with Parliament and the public at Government's discretion.",
+    body: "An independent auditor verifies volumes, collections and distributions on a schedule agreed with Government. Summary results can be shared with Parliament and the public at Government's discretion.",
   },
 ];
 
 const gains = [
-  'A new, recurring public revenue stream at no cost to the Treasury',
+  'A new, recurring public revenue stream, without drawing on the public budget',
   'Full visibility of volumes and money',
   'Protection against disputes, because everything is documented and auditable',
   'Credibility with citizens, media and oversight bodies',
@@ -96,7 +96,7 @@ export default function RevenueSharePage() {
       <Section tone="surface">
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '7fr 5fr' }, gap: { xs: 6, md: 10 } }}>
           <Box>
-            <SectionHeading overline="What Government gains" title="New revenue, full visibility, no cost to the Treasury" />
+            <SectionHeading overline="What Government gains" title="New revenue, full visibility, without drawing on the public budget" />
             <BulletList items={gains} />
           </Box>
           <Box sx={{ p: { xs: 3, md: 5 }, bgcolor: colors.base, color: '#fff', alignSelf: 'start', borderRadius: '2px' }}>

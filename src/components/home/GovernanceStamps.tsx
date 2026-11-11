@@ -39,7 +39,7 @@ const stamps: StampSpec[] = [
     main: 'AUDIT',
     bottom: 'OPEN BOOKS',
     title: 'Independent audit',
-    body: 'An independent auditor verifies volumes, collections and distributions [annually or as agreed].',
+    body: 'An independent auditor verifies volumes, collections and distributions on a schedule agreed with Government.',
     tilt: 6,
   },
   {
@@ -60,16 +60,7 @@ const stamps: StampSpec[] = [
     body: 'Automation supports officers. Decisions remain with the State, within national law and policy.',
     tilt: 9,
   },
-  {
-    ring: 'STANDARDS ALIGNED · TO BE CONFIRMED · ',
-    top: 'ALIGNED',
-    main: 'ISO',
-    bottom: 'PENDING',
-    title: 'Recognised standards',
-    body: 'Alignment with [for example ISO 27001 and relevant national requirements].',
-    tilt: -6,
-    pending: true,
-  },
+  // A 'Recognised standards' tile is hidden until certifications are confirmed.
 ];
 
 export default function GovernanceStamps() {
@@ -82,7 +73,7 @@ export default function GovernanceStamps() {
         m: 0,
         display: 'grid',
         gap: { xs: 4, md: 3 },
-        gridTemplateColumns: { xs: 'repeat(2, minmax(0, 1fr))', sm: 'repeat(3, minmax(0, 1fr))', lg: 'repeat(5, minmax(0, 1fr))' },
+        gridTemplateColumns: { xs: 'repeat(2, minmax(0, 1fr))', sm: 'repeat(3, minmax(0, 1fr))', lg: 'repeat(4, minmax(0, 1fr))' },
       }}
     >
       {stamps.map((s) => (

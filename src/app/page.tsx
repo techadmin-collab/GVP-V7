@@ -1,344 +1,265 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
-import HubRoundedIcon from '@mui/icons-material/HubRounded';
-import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded';
-import SavingsRoundedIcon from '@mui/icons-material/SavingsRounded';
+import Stack from '@mui/material/Stack';
+import ArrowOutwardRoundedIcon from '@mui/icons-material/ArrowOutwardRounded';
+import LockRoundedIcon from '@mui/icons-material/LockRounded';
+import ReceiptLongRoundedIcon from '@mui/icons-material/ReceiptLongRounded';
 import AccountBalanceRoundedIcon from '@mui/icons-material/AccountBalanceRounded';
-import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
-import FlightLandRoundedIcon from '@mui/icons-material/FlightLandRounded';
-import PageHero from '@/components/ui/PageHero';
-import Section, { SectionHeading } from '@/components/ui/Section';
-import FeatureGrid from '@/components/ui/FeatureGrid';
+import VerifiedRoundedIcon from '@mui/icons-material/VerifiedRounded';
+import SummarizeRoundedIcon from '@mui/icons-material/SummarizeRounded';
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import CtaBanner from '@/components/ui/CtaBanner';
 import Reveal from '@/components/ui/Reveal';
-import Highlight from '@/components/ui/Highlight';
-import StatCounters from '@/components/home/StatCounters';
-import CapexCalculator from '@/components/home/CapexCalculator';
-import RevenueFlow from '@/components/home/RevenueFlow';
-import WorldReach from '@/components/home/WorldReach';
-import ModelComparison from '@/components/home/ModelComparison';
-import GovernanceStamps from '@/components/home/GovernanceStamps';
-import LeadershipTeaser from '@/components/home/LeadershipTeaser';
-import FitQuiz from '@/components/home/FitQuiz';
-import HeroIllustration from '@/components/illustrations/HeroIllustration';
-import JourneyStrip from '@/components/illustrations/JourneyStrip';
-import DashboardIllustration from '@/components/illustrations/DashboardIllustration';
-import Split from '@/components/ui/Split';
-import { BotLifecycle } from '@/components/ui/Diagrams';
+import ModulesCarousel from '@/components/v7/ModulesCarousel';
+import ModelDeck from '@/components/v7/ModelDeck';
+import QuestionChips from '@/components/v7/QuestionChips';
 import { ButtonLink, TextLink } from '@/components/ui/links';
-import { colors, fontStacks } from '@/theme/tokens';
+import { colors } from '@/theme/tokens';
+import { siteConfig } from '@/lib/site';
 
-const reasons = [
-  { title: 'Integrated BMS', body: 'One platform for ETA, eGates, passenger processing and analytics.', icon: <HubRoundedIcon /> },
-  { title: 'Expert team', body: 'Leaders and specialists from airports, biometrics, border technology and public-sector delivery.', icon: <GroupsRoundedIcon /> },
-  { title: 'We invest first', body: 'GVP funds design, build, deployment and operation upfront.', icon: <SavingsRoundedIcon /> },
-  { title: 'No capex for Government', body: 'No capital budget, no loan, no sovereign guarantee required.', icon: <AccountBalanceRoundedIcon /> },
-  { title: 'Open revenue share', body: 'Published fee schedule, open books, independent audit.', icon: <VisibilityRoundedIcon /> },
-  { title: 'Destination promotion', body: 'The border journey becomes a welcome, and a marketing channel, for your country.', icon: <FlightLandRoundedIcon /> },
-];
+/*
+ * v7 Modern bento home page, built from scratch. Rounded tiles of different
+ * sizes, pill controls, a module carousel, a card deck for the model and
+ * question chips. It reuses no v4, v5 or v6 home blocks.
+ */
 
-const commitments = [
-  { title: 'Government stays in control.', body: 'Policy, decisions and data remain with the State.' },
-  { title: 'Risk sits with GVP.', body: 'We fund, build and operate against agreed service levels.' },
-  { title: 'Everything is visible.', body: 'Fees, volumes and revenue are open to Government at all times.' },
-];
+const tile = { borderRadius: '28px', border: `1px solid ${colors.line}`, bgcolor: colors.surface, p: { xs: 3, md: 3.5 }, position: 'relative', overflow: 'hidden' } as const;
+const pill = { display: 'inline-block', px: 1.75, py: 0.6, borderRadius: 999, fontWeight: 700, fontSize: '0.82rem' } as const;
 
-const whatWeDo = [
-  { label: 'Border Management System (BMS)', href: '/solution' },
-  { label: 'Electronic Travel Authorisation (ETA) and digital pre-arrival services', href: '/solution#modules' },
-  { label: 'eGates and automated immigration counters', href: '/solution#modules' },
-  { label: 'Passenger-experience design, analytics and reporting', href: '/solution#modules' },
-  { label: 'Destination promotion integrated into the travel journey', href: '/destination-promotion' },
-  { label: 'Training, change management and long-term operations', href: '/delivery' },
-];
+const govKeeps = ['Policy and fee levels', 'Decisions at the border', 'All traveller data', 'Its share of every fee, first', 'The system, at the end of the term'];
+const gvpCarries = ['Design, build and financing', 'Operation and maintenance', 'Technology refresh', 'Delivery and volume risk', 'Agreed service levels and penalties'];
+const safeguards = ['In-country hosting', 'Government owns the data', 'Encryption', 'Role-based access', 'Complete audit trails', 'Penetration testing', 'Steering committee', 'Change control', 'Officers decide', 'Independent audit'];
+
+/** Small heading block used above each bento group. */
+function Head({ label, title, intro, light = false }: { label: string; title: string; intro?: string; light?: boolean }) {
+  return (
+    <Box sx={{ mb: { xs: 3, md: 4 }, maxWidth: 760 }}>
+      <Box component="p" sx={{ ...pill, m: 0, mb: 2, bgcolor: light ? 'rgba(255,255,255,0.16)' : 'rgb(var(--gvp-primary) / 0.08)', color: light ? '#fff' : colors.primary }}>{label}</Box>
+      <Typography variant="h2" component="h2" sx={{ color: light ? '#fff' : colors.text }}>{title}</Typography>
+      {intro ? <Typography sx={{ mt: 1.5, fontSize: '1.15rem', color: light ? 'rgba(255,255,255,0.85)' : colors.muted }}>{intro}</Typography> : null}
+    </Box>
+  );
+}
+
+function Band({ children, py = { xs: 5, md: 8 } }: { children: React.ReactNode; py?: { xs: number; md: number } }) {
+  return (
+    <Box component="section" sx={{ bgcolor: colors.background, py }}>
+      <Container maxWidth="lg">{children}</Container>
+    </Box>
+  );
+}
 
 export default function HomePage() {
   return (
     <>
-      <PageHero
-        size="large"
-        tone="light"
-        overline="Border management for governments"
-        title={
-          <>
-            Modern borders. <Highlight>Zero capital outlay</Highlight> for Government. Full transparency.
-          </>
-        }
-        subtitle="GVP designs, funds, builds and operates intelligent border management systems, so governments can strengthen security, welcome more visitors and share in the revenue, without spending public capital."
-        actions={
-          <>
-            <ButtonLink href="/solution" variant="contained" color="primary" size="large" endIcon={<ArrowForwardRoundedIcon />}>
-              Explore Our Solution
-            </ButtonLink>
-            <ButtonLink href="/contact" variant="outlined" color="primary" size="large" sx={{ borderWidth: 1.5, '&:hover': { borderWidth: 1.5 } }}>
-              Speak to Our Government Team
-            </ButtonLink>
-          </>
-        }
-        aside={<HeroIllustration variant="light" />}
-        asideOnMobile
-        asideWidth={{ md: 400, lg: 500 }}
-        // Runway video hidden for now. To bring it back:
-        //   inside the maroon panel: video={{ mp4: '/videos/gvp-hero-runway.mp4', webm: '/videos/gvp-hero-runway.webm', poster: '/videos/gvp-hero-runway-poster.jpg' }}
-        //   full-screen behind white text instead: also remove tone="light" and the aside lines, and add videoTint="neutral"
-      />
-
-      <StatCounters />
-
-      {/* Six reasons */}
-      <Section tone="light">
-        <Reveal>
-          <SectionHeading overline="Why governments choose GVP" title="Six reasons, one partnership" />
-        </Reveal>
-        <FeatureGrid items={reasons} columns={3} numbered />
-      </Section>
-
-      {/* Introduction */}
-      <Section tone="surface">
-        <Split
-          left={
-            <Reveal>
-              <SectionHeading overline="The border, reimagined" title="A nation's first and last impression" />
-            </Reveal>
-          }
-          right={
-            <Reveal delay={120}>
+      {/* ------------------------------------------------------------ */}
+      {/* Hero bento                                                    */}
+      {/* ------------------------------------------------------------ */}
+      <Band py={{ xs: 3, md: 4 }}>
+        <Box sx={{ display: 'grid', gap: 2, gridTemplateColumns: { xs: '1fr', md: 'repeat(12, 1fr)' } }}>
+          {/* headline */}
+          <Box className="gvp-hero-in" sx={{ ...tile, gridColumn: { md: 'span 8' }, gridRow: { md: 'span 2' }, p: { xs: 3.5, sm: 5, md: 6 }, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 4 }}>
+            <Box component="p" sx={{ ...pill, m: 0, alignSelf: 'flex-start', bgcolor: 'rgb(var(--gvp-primary) / 0.08)', color: colors.primary }}>Border management for governments</Box>
             <Box>
-              <Typography variant="subtitle1" sx={{ color: colors.text, fontSize: { md: '1.3rem' }, lineHeight: 1.65 }}>
-                Borders are a nation&apos;s first and last impression. They must be secure, efficient and welcoming at the same time. Most governments
-                want to modernise but face the same constraints: limited capital, competing priorities and the risk of large technology programmes.
+              <Typography variant="h1" component="h1" sx={{ color: colors.text, fontSize: { xs: '2.6rem', sm: '3.4rem', md: '4.4rem' } }}>
+                Modern borders, <Box component="span" sx={{ color: colors.primary }}>financed by GVP.</Box> Governed by the State. Revenue shared openly.
               </Typography>
-              <Typography variant="body1" sx={{ mt: 3, color: colors.muted }}>
-                GVP removes those constraints. We bring the technology, the investment and the operating expertise. Government keeps sovereignty,
-                control and a transparent share of the revenue.
-              </Typography>
-              <Box sx={{ mt: 4 }}>
-                <TextLink href="/about" sx={{ fontWeight: 600, color: colors.primary }}>
-                  About GVP →
-                </TextLink>
-              </Box>
-            </Box>
-            </Reveal>
-          }
-        />
-      </Section>
-
-      {/* Traveller journey */}
-      <Section tone="light">
-        <Reveal>
-          <SectionHeading
-            overline="How it works"
-            title="One platform for the whole border journey"
-            intro="From the moment a traveller applies to the moment they clear the border: better information for officers, a faster journey for travellers, complete visibility for Government."
-            align="center"
-          />
-        </Reveal>
-        <JourneyStrip />
-      </Section>
-
-      {/* Commitments */}
-      <Section tone="surface">
-        <Reveal>
-          <SectionHeading overline="Our commitment" title="Three promises to every government we serve" />
-        </Reveal>
-        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' }, gap: { xs: 4, md: 0 } }}>
-          {commitments.map((c, i) => (
-            <Reveal key={c.title} delay={i * 140} style={{ height: '100%' }}>
-            <Box
-              sx={{
-                height: '100%',
-                pr: { md: 5 },
-                pl: { md: i === 0 ? 0 : 5 },
-                borderLeft: { md: i === 0 ? 'none' : `1px solid ${colors.line}` },
-              }}
-            >
-              <Typography sx={{ fontFamily: fontStacks.mono, color: colors.accentDark, fontSize: 13, letterSpacing: '0.14em' }}>
-                {String(i + 1).padStart(2, '0')}
-              </Typography>
-              <Typography variant="h3" component="h3" sx={{ mt: 1.5, color: colors.base }}>
-                {c.title}
-              </Typography>
-              <Typography variant="body1" sx={{ mt: 1.5, color: colors.muted }}>
-                {c.body}
+              <Typography sx={{ mt: 2.5, fontSize: '1.12rem', color: colors.muted, maxWidth: 640 }}>
+                GVP finances, builds and operates intelligent border management systems through a build-operate-transfer partnership, and recovers its
+                investment only through published, user-funded fees.
               </Typography>
             </Box>
-            </Reveal>
-          ))}
-        </Box>
-      </Section>
+            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5}>
+              <ButtonLink href="/solution" variant="contained" color="primary" size="large" endIcon={<ArrowOutwardRoundedIcon />}>
+                Explore Our Solution
+              </ButtonLink>
+              <ButtonLink href="/contact" variant="outlined" color="primary" size="large">
+                Speak to Our Government Team
+              </ButtonLink>
+            </Stack>
+          </Box>
 
-      {/* What we do */}
-      <Section tone="light">
-        <Split
-          left={
-            <>
-              <Reveal>
-                <SectionHeading
-                  overline="What we do"
-                  title="Everything a modern border needs, delivered by one accountable partner"
-                  intro="Introduced in phases, starting at one airport and extending across all border control points."
-                />
-              </Reveal>
-              <Reveal delay={150} style={{ maxWidth: 460 }}>
-                <Box sx={{ mt: { xs: -1, md: -2 } }}>
-                  <DashboardIllustration />
-                </Box>
-              </Reveal>
-            </>
-          }
-          right={
-            <Box component="ol" sx={{ listStyle: 'none', p: 0, m: 0, borderTop: `1px solid ${colors.line}` }}>
-              {whatWeDo.map((item, i) => (
-                <Box component="li" key={item.label} sx={{ borderBottom: `1px solid ${colors.line}` }}>
-                  <Reveal delay={i * 70}>
-                  <TextLink
-                    href={item.href}
-                    underline="none"
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 3,
-                      py: 2.5,
-                      color: colors.base,
-                      transition: 'padding 0.2s ease, color 0.2s ease',
-                      '&:hover': { pl: 1, color: colors.primary },
-                    }}
-                  >
-                    <Box component="span" sx={{ fontFamily: fontStacks.mono, fontSize: 13, color: colors.accentDark, minWidth: 24 }}>
-                      {String(i + 1).padStart(2, '0')}
-                    </Box>
-                    <Box component="span" sx={{ flex: 1, fontSize: { xs: '1.05rem', md: '1.15rem' }, fontWeight: 500 }}>
-                      {item.label}
-                    </Box>
-                    <ArrowForwardRoundedIcon sx={{ color: colors.accent, fontSize: 20 }} />
-                  </TextLink>
-                  </Reveal>
-                </Box>
+          {/* tagline tile with a slowly turning ring */}
+          <Box sx={{ ...tile, gridColumn: { md: 'span 4' }, bgcolor: colors.primary, border: 'none', color: '#fff', minHeight: 230, display: 'flex', alignItems: 'flex-end' }}>
+            <Box aria-hidden="true" className="gvp7-spin" sx={{ position: 'absolute', right: -60, top: -60, width: 220, height: 220, borderRadius: '50%', border: '2px dashed rgba(255,255,255,0.35)' }} />
+            <Box aria-hidden="true" sx={{ position: 'absolute', right: -20, top: -20, width: 140, height: 140, borderRadius: '50%', bgcolor: 'rgba(255,255,255,0.08)' }} />
+            <Box sx={{ position: 'relative' }}>
+              <Typography sx={{ fontWeight: 800, fontSize: { xs: '2rem', md: '2.3rem' }, letterSpacing: '-0.04em', lineHeight: 1 }}>{siteConfig.tagline}</Typography>
+              <Typography sx={{ mt: 1, opacity: 0.85, fontSize: '0.92rem' }}>{siteConfig.nameLine}</Typography>
+            </Box>
+          </Box>
+
+          {/* phased roll-out tile with pinging dots */}
+          <Box sx={{ ...tile, gridColumn: { md: 'span 4' }, minHeight: 230, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <Box aria-hidden="true" sx={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: 1.25, maxWidth: 240 }}>
+              {Array.from({ length: 24 }).map((_, k) => (
+                <Box key={k} className={k === 0 ? undefined : 'gvp7-ping'} sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: k === 0 ? colors.primary : colors.accentLight, animationDelay: `${(k % 8) * 0.18 + Math.floor(k / 8) * 0.3}s` }} />
               ))}
             </Box>
-          }
-        />
-      </Section>
-
-      {/* Global reach */}
-      <Section tone="brand" video={{ mp4: '/videos/gvp-hero-runway.mp4', webm: '/videos/gvp-hero-runway.webm', poster: '/videos/gvp-hero-runway-poster.jpg' }}>
-        <Reveal>
-          <SectionHeading
-            tone="brand"
-            overline="Global by design"
-            title="One model, ready for any country"
-            intro="Built to travel: the same platform, funding model and governance can be deployed wherever a government wants to modernise its borders."
-          />
-        </Reveal>
-        <Reveal delay={120}>
-          <WorldReach />
-        </Reveal>
-      </Section>
-
-      {/* BOT teaser */}
-      <Section tone="surface">
-        <Reveal>
-          <SectionHeading
-            overline="The GVP partnership model"
-            title="Government pays nothing upfront. GVP invests first."
-            intro="A build-operate-transfer partnership in which GVP carries the investment, the delivery risk and the technology refresh."
-            align="center"
-          />
-        </Reveal>
-        <Reveal>
-          <BotLifecycle />
-        </Reveal>
-        <Box sx={{ textAlign: 'center', mt: { xs: 2, md: 7 } }}>
-          <ButtonLink href="/partnership-model" variant="outlined" color="primary" size="large">
-            See how the model works
-          </ButtonLink>
-        </Box>
-      </Section>
-
-      {/* Traditional vs GVP */}
-      <Section tone="light">
-        <Reveal>
-          <SectionHeading
-            overline="Two ways to modernise a border"
-            title="Traditional programme, or GVP partnership?"
-            intro="Modern border systems typically require significant capital, long procurement cycles and the risk that technology is outdated by the time it is delivered. Toggle to compare."
-          />
-        </Reveal>
-        <Reveal delay={120}>
-          <ModelComparison />
-        </Reveal>
-      </Section>
-
-      {/* Zero-capex explainer */}
-      <Section tone="brand" pattern>
-        <Reveal>
-          <SectionHeading
-            tone="brand"
-            overline="See the model in numbers"
-            title="Zero capex for Government. Try it."
-            intro="Move the sliders to see how a published traveller fee funds the border system and creates a new revenue stream for Government, with nothing drawn from the public budget."
-          />
-        </Reveal>
-        <Reveal delay={120}>
-          <CapexCalculator />
-        </Reveal>
-      </Section>
-
-      {/* Revenue waterfall */}
-      <Section tone="light">
-        <Reveal>
-          <SectionHeading
-            overline="Open and transparent revenue share"
-            title="What travellers pay is public. What Government receives is visible."
-            intro="Every fee follows the same documented path, and Government's share is allocated first."
-            align="center"
-          />
-        </Reveal>
-        <Reveal delay={120}>
-          <RevenueFlow />
-        </Reveal>
-      </Section>
-
-      {/* Security and governance */}
-      <Section tone="surface">
-        <Reveal>
-          <SectionHeading
-            overline="Security, data sovereignty and governance"
-            title="Your data. Your laws. Your control."
-            intro="Every GVP programme is built around commitments Government can hold us to."
-            align="center"
-          />
-        </Reveal>
-        <Reveal delay={120}>
-          <GovernanceStamps />
-        </Reveal>
-      </Section>
-
-      {/* Leadership */}
-      <Section tone="light">
-        <Reveal>
-          <LeadershipTeaser />
-        </Reveal>
-      </Section>
-
-      {/* Fit check */}
-      <Section tone="surface">
-        <Reveal>
-          <SectionHeading
-            overline="Is GVP right for your country?"
-            title="Find your starting point in four questions"
-            intro="Answer four quick questions and we'll suggest where a GVP programme would begin."
-            align="center"
-          />
-        </Reveal>
-        <Reveal delay={120}>
-          <Box sx={{ maxWidth: 920, mx: 'auto' }}>
-            <FitQuiz />
+            <Box>
+              <Typography sx={{ fontWeight: 800, fontSize: '1.3rem', letterSpacing: '-0.02em' }}>Start with one site</Typography>
+              <Typography variant="body2" sx={{ color: colors.muted }}>A controlled pilot at a priority airport, then phased roll-out.</Typography>
+            </Box>
           </Box>
-        </Reveal>
-      </Section>
+
+          {/* three fact tiles */}
+          <Box sx={{ ...tile, gridColumn: { md: 'span 4' }, bgcolor: colors.accentLight, border: 'none' }}>
+            <Typography sx={{ fontWeight: 800, fontSize: '3.2rem', letterSpacing: '-0.05em', lineHeight: 1, color: colors.primaryDark }}>100%</Typography>
+            <Typography sx={{ mt: 1, fontWeight: 600, color: colors.primaryDark }}>of build and deployment financed by GVP</Typography>
+          </Box>
+          <Box sx={{ ...tile, gridColumn: { md: 'span 4' }, display: 'flex', gap: 2, alignItems: 'center' }}>
+            <Box sx={{ flexShrink: 0, width: 56, height: 56, borderRadius: '18px', display: 'grid', placeItems: 'center', bgcolor: colors.background, color: colors.primary }}>
+              <LockRoundedIcon />
+            </Box>
+            <Box>
+              <Typography sx={{ fontWeight: 800, fontSize: '1.15rem' }}>Data stays sovereign</Typography>
+              <Typography variant="body2" sx={{ color: colors.muted }}>Government owns all traveller and operational data.</Typography>
+            </Box>
+          </Box>
+          <Box sx={{ ...tile, gridColumn: { md: 'span 4' }, display: 'flex', gap: 2, alignItems: 'center' }}>
+            <Box sx={{ flexShrink: 0, width: 56, height: 56, borderRadius: '18px', display: 'grid', placeItems: 'center', bgcolor: colors.background, color: colors.primary }}>
+              <ReceiptLongRoundedIcon />
+            </Box>
+            <Box>
+              <Typography sx={{ fontWeight: 800, fontSize: '1.15rem' }}>Funded by published fees</Typography>
+              <Typography variant="body2" sx={{ color: colors.muted }}>Shared openly with Government.</Typography>
+            </Box>
+          </Box>
+        </Box>
+      </Band>
+
+      {/* ------------------------------------------------------------ */}
+      {/* Modules carousel                                              */}
+      {/* ------------------------------------------------------------ */}
+      <Band>
+        <Head label="Inside the platform" title="Six modules. One accountable partner." intro="Introduced in phases, starting at one airport and extending across all border control points." />
+        <ModulesCarousel />
+      </Band>
+
+      {/* ------------------------------------------------------------ */}
+      {/* Model deck                                                    */}
+      {/* ------------------------------------------------------------ */}
+      <Band>
+        <Head label="The partnership model" title="Four moves, from first site to handover" intro="GVP finances the programme. Government commits no upfront capital." />
+        <ModelDeck />
+        <Box sx={{ mt: 4 }}>
+          <TextLink href="/partnership-model" sx={{ fontWeight: 700, color: colors.primary }}>See the full model →</TextLink>
+        </Box>
+      </Band>
+
+      {/* ------------------------------------------------------------ */}
+      {/* Who keeps what                                                */}
+      {/* ------------------------------------------------------------ */}
+      <Band>
+        <Head label="Roles" title="Who keeps what" />
+        <Box sx={{ display: 'grid', gap: 2, gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' } }}>
+          <Reveal>
+            <Box sx={{ ...tile, height: '100%', p: { xs: 3, md: 4.5 } }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                <Box sx={{ width: 48, height: 48, borderRadius: '16px', display: 'grid', placeItems: 'center', bgcolor: colors.background, color: colors.primary }}>
+                  <AccountBalanceRoundedIcon />
+                </Box>
+                <Typography sx={{ fontWeight: 800, fontSize: '1.6rem', letterSpacing: '-0.03em' }}>Government keeps</Typography>
+              </Box>
+              <Box sx={{ mt: 3, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                {govKeeps.map((g) => (
+                  <Box key={g} sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.75, px: 1.75, py: 1, borderRadius: 999, bgcolor: colors.background, fontWeight: 600, fontSize: '0.95rem' }}>
+                    <CheckRoundedIcon sx={{ fontSize: 18, color: colors.primary }} />
+                    {g}
+                  </Box>
+                ))}
+              </Box>
+            </Box>
+          </Reveal>
+          <Reveal delay={120}>
+            <Box sx={{ ...tile, height: '100%', p: { xs: 3, md: 4.5 }, bgcolor: colors.primary, border: 'none', color: '#fff' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                <Box sx={{ width: 48, height: 48, borderRadius: '16px', display: 'grid', placeItems: 'center', bgcolor: 'rgba(255,255,255,0.16)' }}>
+                  <ArrowOutwardRoundedIcon />
+                </Box>
+                <Typography sx={{ fontWeight: 800, fontSize: '1.6rem', letterSpacing: '-0.03em' }}>GVP carries</Typography>
+              </Box>
+              <Box sx={{ mt: 3, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                {gvpCarries.map((g) => (
+                  <Box key={g} sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.75, px: 1.75, py: 1, borderRadius: 999, bgcolor: 'rgba(255,255,255,0.14)', fontWeight: 600, fontSize: '0.95rem' }}>
+                    <CheckRoundedIcon sx={{ fontSize: 18 }} />
+                    {g}
+                  </Box>
+                ))}
+              </Box>
+            </Box>
+          </Reveal>
+        </Box>
+      </Band>
+
+      {/* ------------------------------------------------------------ */}
+      {/* Open books bento                                              */}
+      {/* ------------------------------------------------------------ */}
+      <Band>
+        <Head label="Open books" title="Every figure, visible to Government" intro="Government’s share of every fee is allocated first. The split is agreed for each programme." />
+        <Box sx={{ display: 'grid', gap: 2, gridTemplateColumns: { xs: '1fr', md: 'repeat(12, 1fr)' } }}>
+          {/* live dashboard tile with decorative bars */}
+          <Box sx={{ ...tile, gridColumn: { md: 'span 7' }, gridRow: { md: 'span 3' }, p: { xs: 3, md: 4.5 }, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 3, minHeight: 320 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Typography sx={{ fontWeight: 800, fontSize: '1.4rem', letterSpacing: '-0.02em' }}>Real-time dashboard</Typography>
+              <Box sx={{ ...pill, bgcolor: colors.background, color: colors.primary, display: 'inline-flex', alignItems: 'center', gap: 0.75 }}>
+                <Box component="span" className="gvp7-ping" sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: colors.status.cleared }} />
+                Live
+              </Box>
+            </Box>
+            <Box aria-hidden="true" sx={{ display: 'flex', alignItems: 'flex-end', gap: 1.25, height: 140 }}>
+              {[60, 85, 45, 95, 70, 100, 55, 80, 65, 90, 75, 88].map((h, k) => (
+                <Box key={k} className="gvp7-bar" sx={{ flex: 1, height: `${h}%`, borderRadius: '10px', bgcolor: k === 9 ? colors.primary : colors.accentLight, animationDelay: `${k * 0.15}s` }} />
+              ))}
+            </Box>
+            <Typography variant="body2" sx={{ color: colors.muted }}>Government has live access to transaction and collection data. Illustration only.</Typography>
+          </Box>
+          {[
+            { icon: <ReceiptLongRoundedIcon />, t: 'Published fee schedule', b: 'Set and published by Government.' },
+            { icon: <SummarizeRoundedIcon />, t: 'Regular reporting', b: 'Volumes, collections and distributions, on an agreed schedule.' },
+            { icon: <VerifiedRoundedIcon />, t: 'Independent audit', b: 'Figures verified independently, records open to Government’s auditors.' },
+          ].map((x, k) => (
+            <Box key={x.t} sx={{ ...tile, gridColumn: { md: 'span 5' }, display: 'flex', gap: 2, alignItems: 'flex-start', bgcolor: k === 2 ? colors.accentLight : colors.surface, border: k === 2 ? 'none' : tile.border }}>
+              <Box sx={{ flexShrink: 0, width: 48, height: 48, borderRadius: '16px', display: 'grid', placeItems: 'center', bgcolor: k === 2 ? 'rgba(255,255,255,0.6)' : colors.background, color: colors.primary }}>{x.icon}</Box>
+              <Box>
+                <Typography sx={{ fontWeight: 800, fontSize: '1.1rem' }}>{x.t}</Typography>
+                <Typography variant="body2" sx={{ color: k === 2 ? colors.primaryDark : colors.muted }}>{x.b}</Typography>
+              </Box>
+            </Box>
+          ))}
+        </Box>
+      </Band>
+
+      {/* ------------------------------------------------------------ */}
+      {/* Safeguards chip cloud                                         */}
+      {/* ------------------------------------------------------------ */}
+      <Band>
+        <Box sx={{ ...tile, bgcolor: colors.primary, border: 'none', color: '#fff', p: { xs: 3.5, md: 6 } }}>
+          <Head light label="Safeguards" title="Your data. Your laws. Your control." intro="Built around commitments Government can hold GVP to." />
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.25 }}>
+            {safeguards.map((s, k) => (
+              <Box key={s} sx={{ px: 2.25, py: 1.25, borderRadius: 999, fontWeight: 700, bgcolor: k % 4 === 0 ? '#fff' : 'rgba(255,255,255,0.14)', color: k % 4 === 0 ? colors.primary : '#fff', fontSize: { xs: '0.95rem', md: '1.05rem' } }}>
+                {s}
+              </Box>
+            ))}
+          </Box>
+          <Box sx={{ mt: 4 }}>
+            <ButtonLink href="/security" variant="contained" sx={{ bgcolor: '#fff', color: colors.primary, '&:hover': { bgcolor: colors.accentLight } }} endIcon={<ArrowOutwardRoundedIcon />}>
+              Security and governance
+            </ButtonLink>
+          </Box>
+        </Box>
+      </Band>
+
+      {/* ------------------------------------------------------------ */}
+      {/* Questions                                                     */}
+      {/* ------------------------------------------------------------ */}
+      <Band>
+        <Head label="Questions" title="Ask us anything" intro="Pick a question to see the answer." />
+        <QuestionChips />
+      </Band>
 
       <CtaBanner
         title="Planning a border modernisation programme?"

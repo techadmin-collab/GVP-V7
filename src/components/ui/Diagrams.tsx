@@ -6,7 +6,6 @@ import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRound
 import PieChartOutlineRoundedIcon from '@mui/icons-material/PieChartOutlineRounded';
 import HandshakeRoundedIcon from '@mui/icons-material/HandshakeRounded';
 import { colors, fontStacks } from '@/theme/tokens';
-import Rich from './Rich';
 
 /* ------------------------------------------------------------------ */
 /* BOT lifecycle: Build → Operate → Share → Transfer                   */
@@ -164,24 +163,28 @@ export function RevenueWaterfall() {
   );
 }
 
-/** Illustrative split bar. Figures stay placeholders until contract terms are agreed. */
-export function IllustrativeSplit({ governmentLabel = '[Government share X%]', gvpLabel = '[GVP share Y%]' }: { governmentLabel?: string; gvpLabel?: string }) {
+/**
+ * Unweighted split bar: equal halves by design, with no percentages, so it
+ * cannot be read as an offer or anchor a negotiation. Shares are agreed with
+ * Government for each programme.
+ */
+export function IllustrativeSplit() {
   return (
     <Box>
-      <Box sx={{ display: 'flex', height: 54, borderRadius: '2px', overflow: 'hidden', border: `1px solid ${colors.line}` }} role="img" aria-label="Illustrative revenue split between Government and GVP, figures to be finalised per programme">
+      <Box sx={{ display: 'flex', height: 54, borderRadius: '2px', overflow: 'hidden', border: `1px solid ${colors.line}` }} role="img" aria-label="Fee revenue is shared between Government and GVP; the split is agreed for each programme">
         <Box sx={{ flex: 1, bgcolor: colors.primary, color: '#fff', display: 'flex', alignItems: 'center', px: 2.5 }}>
           <Typography variant="body2" sx={{ fontWeight: 600 }}>
-            Government
+            Government share
           </Typography>
         </Box>
         <Box sx={{ flex: 1, bgcolor: colors.accentLight, color: colors.base, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', px: 2.5 }}>
           <Typography variant="body2" sx={{ fontWeight: 600 }}>
-            GVP
+            GVP share
           </Typography>
         </Box>
       </Box>
       <Typography variant="body2" sx={{ mt: 1.5, fontStyle: 'italic', color: colors.muted }}>
-        Illustrative split: <Rich text={governmentLabel} /> / <Rich text={gvpLabel} />, to be finalised per programme.
+        Illustrative only, not an offer. Sections are not to scale: the split is agreed with Government for each programme, and Government&apos;s share is allocated first.
       </Typography>
     </Box>
   );

@@ -26,7 +26,7 @@ html {
 }
 
 section[id] {
-  scroll-margin-top: 90px;
+  scroll-margin-top: 100px;
 }
 
 img {
@@ -268,4 +268,15 @@ img {
   [data-tilt] {
     transform: none !important;
   }
+}
+
+/* v7 bento: decorative motion for the home tiles */
+@keyframes gvp7-spin { to { transform: rotate(360deg); } }
+@keyframes gvp7-ping { 0%, 70%, 100% { transform: scale(1); opacity: 0.35; } 35% { transform: scale(1.35); opacity: 1; } }
+@keyframes gvp7-bars { 0%, 100% { transform: scaleY(0.45); } 50% { transform: scaleY(1); } }
+.gvp7-spin { animation: gvp7-spin 18s linear infinite; }
+.gvp7-ping { animation: gvp7-ping 2.8s ease-in-out infinite; }
+.gvp7-bar { transform-origin: 50% 100%; animation: gvp7-bars 2.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .gvp7-spin, .gvp7-ping, .gvp7-bar { animation: none !important; }
 }

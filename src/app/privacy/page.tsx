@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: 'Privacy Policy', robots: { index: fa
 const sections: LegalSection[] = [
   {
     heading: 'Who we are',
-    body: ['This website is operated by GVP (Global Visit Permit), [registered company name and address].'],
+    body: ['This website is operated by GVP, [registered company name and address].'],
   },
   {
     heading: 'What we collect',

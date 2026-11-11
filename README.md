@@ -1,4 +1,4 @@
-# GVP Website (Global Visit Permit)
+# GVP Website
 
 Corporate website for GVP, written for government decision-makers: ministers, immigration and police leadership, airport and port authorities, tourism boards and procurement committees.
 
@@ -59,7 +59,7 @@ src/app/                      Pages (App Router)
   page.tsx                    1. Home
   about/                      2. About GVP
   solution/                   3. Our Solution: BMS
-  partnership-model/          4. Partnership Model (zero capex, BOT)
+  partnership-model/          4. Partnership Model (tailor-made BMS, BOT)
   revenue-share/              5. Open and Transparent Revenue Share
   destination-promotion/      6. Destination Promotion
   team/                       7. Team and Leadership

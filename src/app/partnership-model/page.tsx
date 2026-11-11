@@ -14,7 +14,7 @@ import { colors } from '@/theme/tokens';
 import { contactHref } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'The GVP Partnership Model: Zero Capex, Full Upfront Investment',
+  title: 'The GVP Partnership Model: Financed by GVP, Governed by the State',
   description: 'A build-operate-transfer partnership in which GVP carries the investment, the delivery risk and the technology refresh.',
 };
 
@@ -36,8 +36,8 @@ const govContributes = [
 ];
 
 const riskReducers = [
-  { title: 'Budget protection', body: 'No capital outlay and no unplanned cost overruns.' },
-  { title: 'Delivery risk with GVP', body: "If it is late, it is GVP's cost." },
+  { title: 'Tailor-made scope', body: 'Designed around the country\'s entry points, policies and priorities.' },
+  { title: 'Delivery and volume risk with GVP', body: "If it is late, it is GVP's cost." },
   { title: 'Performance-linked', body: 'Service levels and penalties are written into the agreement.' },
   { title: 'Technology refresh included', body: 'No obsolete systems at the end of the term.' },
   { title: 'Clean exit', body: 'Defined handback and transfer obligations.' },
@@ -48,9 +48,9 @@ export default function PartnershipModelPage() {
     <>
       <PageHero
         overline="The GVP partnership model"
-        title="Government pays nothing upfront. GVP invests first."
+        title="GVP finances the programme. Government commits no upfront capital."
         subtitle="A build-operate-transfer (BOT) partnership in which GVP carries the investment, the delivery risk and the technology refresh, and Government receives a modern border system and a share of revenue."
-        aside={<Stamp ring="BUILD · OPERATE · SHARE · TRANSFER · " centreTop="ZERO" centreMain="CAPEX" centreBottom="FOR GOVERNMENT" size={220} />}
+        aside={<Stamp ring="BUILD · OPERATE · SHARE · TRANSFER · " centreTop="FUNDED BY" centreMain="GVP" centreBottom="STATE GOVERNED" size={220} />}
       />
 
       <Section tone="surface">
@@ -76,7 +76,7 @@ export default function PartnershipModelPage() {
               GVP finances and delivers the complete solution.
             </Typography>
             <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.82)' }}>
-              Government does not need to raise a loan, allocate a capital budget, or provide a sovereign guarantee.
+              GVP finances the programme and recovers its investment only through published, user-funded fees. Delivery and volume risk sit with GVP.
             </Typography>
           </Box>
         </Box>
@@ -97,7 +97,7 @@ export default function PartnershipModelPage() {
               <BulletList items={govContributes} />
               <Box sx={{ mt: 4, p: 3, borderLeft: `3px solid ${colors.accent}`, bgcolor: colors.background }}>
                 <Typography variant="body1" sx={{ color: colors.base, fontWeight: 500 }}>
-                  There is no capital contribution, and no payment from the public purse for the build or the technology.
+                  GVP funds the build and the technology; Government&apos;s role is to enable the project.
                 </Typography>
               </Box>
             </Box>

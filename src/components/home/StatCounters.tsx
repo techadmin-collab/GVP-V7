@@ -8,12 +8,11 @@ import { colors, fontStacks } from '@/theme/tokens';
 
 type Stat = { from: number; to: number; prefix?: string; suffix?: string; label: string };
 
-/* Values come straight from the content brief, so nothing here is an unconfirmed claim. */
+/* Commitments only. Product counts were removed: add confirmed evidence (travellers processed,
+   sites delivered, years of experience, references) here once it is approved for publication. */
 const stats: Stat[] = [
-  { from: 100, to: 0, prefix: '$', label: 'Capital outlay for Government' },
+  { from: 0, to: 100, suffix: '%', label: 'Of build and deployment financed by GVP' },
   { from: 0, to: 100, suffix: '%', label: 'Traveller data owned by Government' },
-  { from: 0, to: 6, label: 'Integrated BMS modules on one platform' },
-  { from: 0, to: 4, label: 'Stages: build, operate, share, transfer' },
 ];
 
 const DURATION = 1600;
@@ -87,7 +86,7 @@ export default function StatCounters() {
           ref={ref}
           sx={{
             display: 'grid',
-            gridTemplateColumns: { xs: 'repeat(2, minmax(0, 1fr))', md: 'repeat(4, minmax(0, 1fr))' },
+            gridTemplateColumns: { xs: 'repeat(2, minmax(0, 1fr))', md: 'repeat(2, minmax(0, 1fr))' },
           }}
         >
           {stats.map((s, i) => (

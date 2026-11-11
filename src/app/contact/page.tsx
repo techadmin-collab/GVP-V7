@@ -11,7 +11,7 @@ import Section from '@/components/ui/Section';
 import Rich from '@/components/ui/Rich';
 import ContactForm from '@/components/contact/ContactForm';
 import { colors, fontStacks } from '@/theme/tokens';
-import { interestValues, siteConfig, type InterestValue } from '@/lib/site';
+import { confirmedContact, interestValues, type InterestValue } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Contact and Government Enquiries',
@@ -33,12 +33,14 @@ export default async function ContactPage({ searchParams }: { searchParams: Sear
   const defaultInterest = interestValues.includes(sp.interest as InterestValue) ? (sp.interest as InterestValue) : undefined;
   const defaultTopic = typeof sp.topic === 'string' ? sp.topic.slice(0, 120) : undefined;
 
+  // Unconfirmed [placeholder] details are hidden until they are supplied
+  const confirmed = confirmedContact();
   const contactRows = [
-    { icon: <PlaceRoundedIcon />, label: 'Address', value: siteConfig.contact.address },
-    { icon: <PhoneRoundedIcon />, label: 'Phone', value: siteConfig.contact.phone },
-    { icon: <MailRoundedIcon />, label: 'Email', value: siteConfig.contact.email },
-    { icon: <LinkedInIcon />, label: 'LinkedIn', value: siteConfig.contact.linkedin },
-  ];
+    { icon: <PlaceRoundedIcon />, label: 'Address', value: confirmed.address },
+    { icon: <PhoneRoundedIcon />, label: 'Phone', value: confirmed.phone },
+    { icon: <MailRoundedIcon />, label: 'Email', value: confirmed.email },
+    { icon: <LinkedInIcon />, label: 'LinkedIn', value: confirmed.linkedin },
+  ].filter((r) => Boolean(r.value));
 
   return (
     <>
@@ -62,9 +64,11 @@ export default async function ContactPage({ searchParams }: { searchParams: Sear
               ))}
             </Box>
 
+            {contactRows.length ? (
             <Typography variant="overline" component="h2" sx={{ color: colors.accentDark, display: 'block', mt: 6 }}>
               Contact details
             </Typography>
+            ) : null}
             <Stack spacing={2} sx={{ mt: 2 }}>
               {contactRows.map((r) => (
                 <Box key={r.label} sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
@@ -74,7 +78,7 @@ export default async function ContactPage({ searchParams }: { searchParams: Sear
                       {r.label}
                     </Typography>
                     <Typography variant="body1" sx={{ color: colors.base }}>
-                      <Rich text={r.value} />
+                      <Rich text={r.value ?? ''} />
                     </Typography>
                   </Box>
                 </Box>

@@ -32,7 +32,6 @@ const pillars: { title: string; icon: ReactNode; items: (string | BulletItem)[] 
     title: 'Security by design',
     icon: <LockRoundedIcon />,
     items: [
-      'Alignment with recognised standards [for example ISO 27001 and relevant national requirements]',
       'Encryption, role-based access and complete audit trails',
       'Regular penetration testing and independent security review',
       'Business continuity and disaster recovery planning',

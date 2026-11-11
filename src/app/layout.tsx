@@ -13,14 +13,14 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} | ${siteConfig.fullName}: Border Management for Governments`,
-    template: `%s | ${siteConfig.name} ${siteConfig.fullName}`,
+    default: `${siteConfig.name} | ${siteConfig.nameLine}. ${siteConfig.tagline}`,
+    template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
   openGraph: {
     type: 'website',
-    siteName: `${siteConfig.name} ${siteConfig.fullName}`,
-    title: `${siteConfig.name} | ${siteConfig.tagline}`,
+    siteName: `${siteConfig.name} | ${siteConfig.nameLine}`,
+    title: `${siteConfig.name} | ${siteConfig.nameLine}. ${siteConfig.tagline}`,
     description: siteConfig.description,
   },
   robots: { index: true, follow: true },

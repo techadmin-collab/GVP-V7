@@ -1,11 +1,15 @@
 export const faqs = [
   {
-    q: 'Does Government need to invest any money?',
-    a: 'No. GVP funds the design, technology, hardware, installation and operation. Government provides legal authorisation, site access and agreed utilities.',
+    q: 'Is there a financial implication for Government?',
+    a: 'There is no upfront capital requirement and no financial implication for the public budget. GVP finances the programme and recovers its investment only through published, user-funded fees, shared openly with Government.',
+  },
+  {
+    q: 'What does Government provide?',
+    a: 'Legal authorisation, site access and agreed utilities. GVP funds the design, technology, hardware, installation and operation, and tailors the solution to each country.',
   },
   {
     q: 'How does GVP earn revenue?',
-    a: 'From published user fees, shared with Government according to the agreed schedule. No payment is drawn from the public budget.',
+    a: 'From published user fees, shared with Government according to the agreed schedule.',
   },
   {
     q: 'What if traveller volumes are lower than forecast?',

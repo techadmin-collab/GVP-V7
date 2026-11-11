@@ -1,86 +1,55 @@
 import * as React from 'react';
-import Image from 'next/image';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
-import Divider from '@mui/material/Divider';
-import { colors, fontStacks } from '@/theme/tokens';
-import { footerNav, legalNav, siteConfig } from '@/lib/site';
+import { colors } from '@/theme/tokens';
+import { confirmedContact, footerNav, legalNav, siteConfig } from '@/lib/site';
 import { TextLink } from '@/components/ui/links';
 import Rich from '@/components/ui/Rich';
-import SecurityPattern from '@/components/ui/SecurityPattern';
+import LogoMark from '@/components/ui/LogoMark';
 
-const linkSx = { color: 'rgb(var(--gvp-on-dark) / 0.75)', fontSize: '0.95rem', '&:hover': { color: '#fff' } };
-
+/** v7 Modern bento: the footer is itself a set of rounded tiles on the blush page. */
 export default function Footer() {
   const year = new Date().getFullYear();
+  const contact = Object.values(confirmedContact()).filter((v): v is string => Boolean(v));
+  const tile = { bgcolor: colors.surface, borderRadius: '28px', border: `1px solid ${colors.line}`, p: { xs: 3, md: 4 } } as const;
   return (
-    <Box component="footer" sx={{ position: 'relative', bgcolor: colors.base, color: 'rgb(var(--gvp-on-dark))', pt: { xs: 8, md: 10 }, pb: 4, overflow: 'hidden' }}>
-      <SecurityPattern opacity={0.07} lines={18} amplitude={90} centre={0.2} />
-      <Container maxWidth="lg" sx={{ position: 'relative', px: { xs: 2, sm: 3 } }}>
-        <Box
-          sx={{
-            display: 'grid',
-            gap: { xs: 6, md: 8 },
-            gridTemplateColumns: { xs: '1fr', md: '1.3fr 1fr 1fr' },
-          }}
-        >
-          <Box>
-            <Image src="/brand/gvp-mark-white.png" alt="GVP Global Visit Permit" width={1349} height={370} style={{ height: 40, width: 'auto' }} />
-            <Typography variant="body2" sx={{ mt: 3, color: 'rgb(var(--gvp-on-dark) / 0.7)', maxWidth: 380 }}>
-              A trusted partner to governments for secure, seamless and sustainable border management. Designed, funded and operated by GVP.
-              Governed by the State.
-            </Typography>
+    <Box component="footer" sx={{ bgcolor: colors.background, pt: { xs: 4, md: 6 }, pb: 3 }}>
+      <Container maxWidth="lg">
+        <Box sx={{ display: 'grid', gap: 2, gridTemplateColumns: { xs: '1fr', md: '5fr 4fr 3fr' } }}>
+          <Box sx={{ ...tile, bgcolor: colors.primary, border: 'none', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 240 }}>
+            <LogoMark color="#FFFFFF" height={32} />
+            <Box>
+              <Typography sx={{ fontWeight: 800, fontSize: { xs: '1.8rem', md: '2.4rem' }, letterSpacing: '-0.03em', lineHeight: 1.05 }}>{siteConfig.tagline}</Typography>
+              <Typography sx={{ mt: 1, opacity: 0.8 }}>{siteConfig.nameLine}</Typography>
+            </Box>
           </Box>
-
-          <Box component="nav" aria-label="Footer">
-            <Typography variant="overline" component="p" sx={{ color: colors.accentLight, mb: 2 }}>
-              Explore
-            </Typography>
-            <Box component="ul" sx={{ listStyle: 'none', p: 0, m: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', rowGap: 1.25, columnGap: 3 }}>
+          <Box component="nav" aria-label="Footer" sx={tile}>
+            <Typography sx={{ fontWeight: 700, color: colors.muted, fontSize: '0.85rem', mb: 1.5 }}>Explore</Typography>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
               {footerNav.map((item) => (
-                <li key={item.href}>
-                  <TextLink href={item.href} sx={linkSx}>
-                    {item.label}
-                  </TextLink>
-                </li>
+                <TextLink key={item.href} href={item.href} underline="none" sx={{ px: 1.75, py: 0.75, borderRadius: 999, bgcolor: colors.background, color: colors.text, fontWeight: 600, fontSize: '0.88rem', '&:hover': { bgcolor: colors.accentLight } }}>
+                  {item.label}
+                </TextLink>
               ))}
             </Box>
           </Box>
-
-          <Box>
-            <Typography variant="overline" component="p" sx={{ color: colors.accentLight, mb: 2 }}>
-              Government enquiries
-            </Typography>
-            <Stack spacing={1.25} sx={{ color: 'rgb(var(--gvp-on-dark) / 0.75)', fontSize: '0.95rem' }}>
-              <Typography variant="body2"><Rich text={siteConfig.contact.address} /></Typography>
-              <Typography variant="body2"><Rich text={siteConfig.contact.phone} /></Typography>
-              <Typography variant="body2"><Rich text={siteConfig.contact.email} /></Typography>
-              <Typography variant="body2"><Rich text={siteConfig.contact.linkedin} /></Typography>
-            </Stack>
-            <Box sx={{ mt: 3 }}>
-              <TextLink href="/contact" sx={{ color: colors.accentLight, fontWeight: 600 }}>
-                Request a confidential briefing →
-              </TextLink>
-            </Box>
+          <Box sx={tile}>
+            <Typography sx={{ fontWeight: 700, color: colors.muted, fontSize: '0.85rem', mb: 1.5 }}>Government enquiries</Typography>
+            {contact.map((v) => (
+              <Typography key={v} variant="body2" sx={{ color: colors.text }}><Rich text={v} /></Typography>
+            ))}
+            <TextLink href="/contact" sx={{ display: 'inline-block', mt: 1, color: colors.primary, fontWeight: 700 }}>Request a confidential briefing →</TextLink>
           </Box>
         </Box>
-
-        <Divider sx={{ my: { xs: 5, md: 6 }, borderColor: 'rgb(var(--gvp-pattern) / 0.18)' }} />
-
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="space-between" alignItems={{ sm: 'center' }}>
-          <Typography sx={{ fontFamily: fontStacks.mono, fontSize: 12, letterSpacing: '0.08em', color: 'rgb(var(--gvp-on-dark) / 0.55)' }}>
-            © {year} GVP · Global Visit Permit. All rights reserved.
-          </Typography>
-          <Stack direction="row" spacing={3}>
+        <Box sx={{ mt: 2.5, px: 1, display: 'flex', flexWrap: 'wrap', gap: 2, justifyContent: 'space-between' }}>
+          <Typography sx={{ fontSize: '0.82rem', color: colors.muted }}>© {year} GVP | {siteConfig.nameLine}. All rights reserved.</Typography>
+          <Box sx={{ display: 'flex', gap: 3 }}>
             {legalNav.map((item) => (
-              <TextLink key={item.href} href={item.href} sx={{ ...linkSx, fontSize: '0.85rem' }}>
-                {item.label}
-              </TextLink>
+              <TextLink key={item.href} href={item.href} sx={{ fontSize: '0.82rem', color: colors.muted }}>{item.label}</TextLink>
             ))}
-          </Stack>
-        </Stack>
+          </Box>
+        </Box>
       </Container>
     </Box>
   );

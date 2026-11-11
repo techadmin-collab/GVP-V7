@@ -9,9 +9,11 @@ import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
 import { colors, fontStacks } from '@/theme/tokens';
 
 /**
- * Interactive "zero capex" explainer.
- * All figures are ILLUSTRATIVE ONLY: the content brief says fee and split
- * figures stay illustrative until contract terms are agreed.
+ * Interactive fee-model explainer.
+ * All figures are ILLUSTRATIVE ONLY and are not an offer. It deliberately
+ * shows NO revenue split: shares are agreed with Government for each
+ * programme, and a public default could anchor negotiations or conflict
+ * with a live financial proposal.
  */
 
 const TERM_YEARS = 10; // illustrative operating term
@@ -78,12 +80,9 @@ function SliderRow({ id, label, valueText, value, min, max, step, onChange, hint
 export default function CapexCalculator() {
   const [arrivals, setArrivals] = React.useState(5); // millions per year
   const [fee, setFee] = React.useState(20); // USD per traveller
-  const [govShare, setGovShare] = React.useState(40); // %
 
   const annual = arrivals * 1e6 * fee;
-  const govAnnual = annual * (govShare / 100);
-  const gvpAnnual = annual - govAnnual;
-  const govTerm = govAnnual * TERM_YEARS;
+  const term = annual * TERM_YEARS;
 
   return (
     <Box
@@ -117,21 +116,10 @@ export default function CapexCalculator() {
           onChange={setFee}
           hint="Set and published by Government."
         />
-        <SliderRow
-          id="calc-share"
-          label="Government share of each fee"
-          valueText={`${govShare}%`}
-          value={govShare}
-          min={20}
-          max={70}
-          step={5}
-          onChange={setGovShare}
-          hint="Agreed in the contract for each programme."
-        />
         <Box sx={{ display: 'flex', gap: 1.25, alignItems: 'flex-start', mt: 1, color: 'rgb(var(--gvp-on-dark) / 0.65)' }}>
           <InfoOutlinedIcon sx={{ fontSize: 18, mt: '2px' }} />
           <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>
-            Illustrative figures only. Fees, revenue split and term are agreed with Government for each programme.
+            Illustrative example only, not an offer. Fees, the revenue split and the term are agreed with Government for each programme.
           </Typography>
         </Box>
       </Box>
@@ -147,97 +135,35 @@ export default function CapexCalculator() {
           boxShadow: '0 30px 60px -30px rgba(0,0,0,0.6)',
         }}
       >
-        {/* Capex: always zero */}
-        <Box sx={{ px: { xs: 3, md: 4 }, py: 3, bgcolor: colors.background, borderBottom: `1px solid ${colors.line}`, display: 'flex', alignItems: 'center', gap: 2.5 }}>
-          <Box sx={{ flex: 1 }}>
-            <Typography sx={{ fontFamily: fontStacks.mono, fontSize: 12, letterSpacing: '0.14em', color: colors.accentDark }}>
-              GOVERNMENT CAPITAL OUTLAY
-            </Typography>
-            <Typography sx={{ fontFamily: fontStacks.heading, fontSize: { xs: '2.6rem', md: '3.2rem' }, lineHeight: 1.05, color: colors.primary }}>
-              $0
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              px: 1.5,
-              py: 0.75,
-              border: `1.5px solid ${colors.accent}`,
-              borderRadius: 999,
-              fontFamily: fontStacks.mono,
-              fontSize: 11.5,
-              letterSpacing: '0.14em',
-              color: colors.accentDark,
-              transform: 'rotate(-4deg)',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            ALWAYS
-          </Box>
-        </Box>
-
         <Box sx={{ px: { xs: 3, md: 4 }, py: 3.5 }}>
           <Typography sx={{ fontFamily: fontStacks.mono, fontSize: 12, letterSpacing: '0.14em', color: colors.accentDark }}>
-            GOVERNMENT RECEIVES EACH YEAR
+            PUBLISHED TRAVELLER FEES EACH YEAR
           </Typography>
           <Typography sx={{ fontFamily: fontStacks.heading, fontSize: { xs: '2.4rem', md: '2.9rem' }, lineHeight: 1.1, color: colors.base, fontVariantNumeric: 'tabular-nums' }}>
-            {money(govAnnual)}
+            {money(annual)}
           </Typography>
           <Typography variant="body2" sx={{ color: colors.muted }}>
-            About <strong style={{ color: colors.base }}>{money(govTerm)}</strong> over an illustrative {TERM_YEARS}-year term, at no cost to the Treasury.
+            About <strong style={{ color: colors.base }}>{money(term)}</strong> over an illustrative {TERM_YEARS}-year term, without drawing on the public budget.
           </Typography>
 
-          {/* Split bar */}
-          <Box sx={{ mt: 3 }}>
-            <Box sx={{ display: 'flex', height: 40, borderRadius: '3px', overflow: 'hidden', border: `1px solid ${colors.line}` }} role="img" aria-label={`Each fee is split ${govShare}% Government, ${100 - govShare}% GVP`}>
-              <Box
-                sx={{
-                  width: `${govShare}%`,
-                  bgcolor: colors.primary,
-                  color: '#fff',
-                  display: 'flex',
-                  alignItems: 'center',
-                  px: 1.5,
-                  transition: 'width 0.45s cubic-bezier(0.2, 0.7, 0.2, 1)',
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                }}
-              >
-                <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.85rem' }}>
-                  Government {govShare}%
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  flex: 1,
-                  bgcolor: colors.accentLight,
-                  color: colors.base,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-end',
-                  px: 1.5,
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                }}
-              >
-                <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.85rem' }}>
-                  GVP {100 - govShare}%
-                </Typography>
-              </Box>
+          {/* How the fees are shared: no percentages, by design */}
+          <Box sx={{ mt: 3, display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 1.5 }}>
+            <Box sx={{ p: 2, border: `1px solid ${colors.line}`, borderLeft: `3px solid ${colors.primary}`, borderRadius: '3px' }}>
+              <Typography sx={{ fontWeight: 600, color: colors.base }}>Government share</Typography>
+              <Typography variant="body2" sx={{ color: colors.muted, fontSize: '0.85rem' }}>
+                Allocated first, at the rate set in the agreed schedule.
+              </Typography>
             </Box>
-            <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2, mt: 2 }}>
-              <Box>
-                <Typography sx={{ fontFamily: fontStacks.mono, fontSize: 11, letterSpacing: '0.12em', color: colors.muted }}>TOTAL FEES / YEAR</Typography>
-                <Typography sx={{ fontWeight: 600, color: colors.base, fontVariantNumeric: 'tabular-nums' }}>{money(annual)}</Typography>
-              </Box>
-              <Box>
-                <Typography sx={{ fontFamily: fontStacks.mono, fontSize: 11, letterSpacing: '0.12em', color: colors.muted }}>GVP SHARE / YEAR</Typography>
-                <Typography sx={{ fontWeight: 600, color: colors.base, fontVariantNumeric: 'tabular-nums' }}>{money(gvpAnnual)}</Typography>
-                <Typography variant="body2" sx={{ color: colors.muted, fontSize: '0.8rem' }}>
-                  Covers investment, operations and technology refresh
-                </Typography>
-              </Box>
+            <Box sx={{ p: 2, border: `1px solid ${colors.line}`, borderLeft: `3px solid ${colors.accentLight}`, borderRadius: '3px' }}>
+              <Typography sx={{ fontWeight: 600, color: colors.base }}>GVP share</Typography>
+              <Typography variant="body2" sx={{ color: colors.muted, fontSize: '0.85rem' }}>
+                Recovers the investment and covers operations and technology refresh.
+              </Typography>
             </Box>
           </Box>
+          <Typography sx={{ mt: 2, fontFamily: fontStacks.mono, fontSize: 11, letterSpacing: '0.12em', color: colors.muted }}>
+            ILLUSTRATIVE EXAMPLE · NOT AN OFFER · SPLIT AGREED PER PROGRAMME
+          </Typography>
         </Box>
 
         {/* Risk note */}
